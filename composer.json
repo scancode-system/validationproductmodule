@@ -1,0 +1,29 @@
+{
+    "name": "scancode/validation-product-module",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ValidationProduct\\Providers\\ValidationProductServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ValidationProduct\\": ""
+        }
+    },
+    "type": "laravel-module",
+    "require": {
+        "scancode/portal-module": "0.*"
+    }
+}
