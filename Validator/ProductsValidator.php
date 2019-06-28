@@ -2,9 +2,8 @@
 
 namespace Modules\ValidationProduct\Validator;
 
-use App\Imports\ValidatorImport;
+use Modules\Portal\Imports\ValidatorImport;
 use Illuminate\Validation\Rule;
-use App\Rules\WithField;
 
 class ProductsValidator extends ValidatorImport
 {
