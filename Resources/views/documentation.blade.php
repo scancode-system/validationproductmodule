@@ -12,7 +12,7 @@
 							No Portal online da Scancode, poderá preparar seu sistema para o ambiente de produção (feira), de forma que o sistema trabalhe com dados integros e sem corromper o sistema.
 							Aqui no portal poderá validar os seu sistema ERP de forma que corresponde eficientemente com o nosso sistema, com esta documentação será demonstrado a estrutura necessária para a importação e como estas dados devem ser formatados.
 						</p>
-						<a href="{{ route('portal.doc.download.sample', $company_validation) }}" class="btn btn-primary">Download da planilha de produtos</a>
+						<a href="{{ route('portal.doc.download.sample', $event_validation) }}" class="btn btn-primary">Download da planilha de produtos</a>
 					</div>
 				</div>
 				<h1 class="mb-3">Validação de Produtos</h1>
@@ -104,5 +104,5 @@
 <li class="breadcrumb-item">
 	<a href="{{ route('portal.main', 1) }}">Painel Central - Importar e Validar</a>
 </li>
-<li class="breadcrumb-item text-capitalize">Documentação de {{ $company_validation->validation->alias }}</li>
+<li class="breadcrumb-item text-capitalize">Documentação de {{ $event_validation->validation->alias }}</li>
 @endsection

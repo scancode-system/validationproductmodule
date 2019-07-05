@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\View;
 class ViewComposerServiceProvider extends ServiceProvider {
 
     public function boot() {
-        View::composer('validationproduct::documentation', 'Modules\Portal\Http\ViewComposers\Parameters\CompanyValidationComposer');
+        View::composer('validationproduct::documentation', 'Modules\Portal\Http\ViewComposers\Parameters\EventValidationComposer');
     }
 
     public function register() {}
