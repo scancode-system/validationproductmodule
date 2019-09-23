@@ -5,36 +5,52 @@ namespace Modules\ValidationProduct\Validator;
 use Modules\Portal\Imports\ValidatorImport;
 use Illuminate\Validation\Rule;
 
-class ProductsValidator extends ValidatorImport
+class ProductsValidator extends ValidatorImport 
 {
+
+	protected $required = ['descricao', 'codigo', 'codigo_2', 'preco', 'categoria', 'disponivel_atual', 'data_atual'];
 
 	public function rule($data){
 		return  [
-			'id_produto' => 				'blocked',		  
-			'descricao' => 					'required|string|max:255',
+			'id_produto' => 				'blocked',
+			'descricao' => 					'filled|string|max:255',				
 			'descricao_detalhada' => 		'string',   																				
-			'codigo' => 					'required|string|max:40|unique_custom_values',
-			'codigo_2' => 					'required|string|max:40|unique_custom_values',
-			'preco' => 						'required|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
-			'preco_varejo' => 				'nullable|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',  													
-			'filial' => 					'integer|min:1',    																		
+			'codigo' => 					'filled|string|max:40|unique_custom_values',
+			'codigo_2' => 					'filled|string|max:40|unique_custom_values',
+			'preco' => 						'filled|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
+			'preco_varejo' => 				'numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/', 	 													
+			'filial' => 					'integer|min:1',																											
 			'filial_descricao' => 			'string|max:255',																		
-			'qtd_min' => 					'integer|min:1', 																		
-			'multiplo' => 					'integer|min:1', 																		
-			'desconto_max' => 				'integer|min:0', 																		
-			'desconto_bloquear' => 			'integer|between:0,1',
-			'imagem' => 					'blocked',
-			'ipi' => 						'numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
-			'produto_base' => 				'nullable|integer|min:1|not_present_custom_values:codigo',
-			'disponivel_atual' => 			'present|integer|min:0',
-			'total_atual' => 				'blocked', 																		
-			'data_atual' => 				'present|date_format:Y-m-d',
-			'disponivel_futuro' => 			'present|integer|min:0',
-			'total_futuro' => 				'blocked',
-			'data_futuro' => 				'present|date_format:Y-m-d',
+			'qtd_min' => 					'integer|min:1',																										
+			'multiplo' => 					'integer|min:1', 																	
+			'desconto_max' => 				'integer|min:0', 																	
+			'desconto_bloquear' => 			'integer|between:0,1',									
+			'ipi' => 						'numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',				
+			'produto_base' => 				'integer|min:1|not_present_custom_values:codigo',
+			'disponivel_atual' => 			'filled|integer|min:0',
+			'data_atual' => 				'filled|date_format:Y-m-d',
+			'disponivel_futuro' => 			'integer|min:0',
+			'data_futuro' => 				'date_format:Y-m-d',
 			'cor' => 						'nullable|string|max:255',
-			'categoria' => 					'required|string|max:255',
+			'categoria' => 					'filled|string|max:255',
 		]+$this->precos_promocionais($data);
+	}
+
+
+	protected function filters(){
+		$this->lengthFilter(['data_atual'], 10);
+	}
+
+	public function filterRules(){
+		return [
+			['rule' => ['data_atual' => 'required|date_format:d/m/Y'], 'filter' => 'dateDMY'],
+			['rule' => ['data_atual' => 'required|date_format:j/n/Y'], 'filter' => 'dateDMY'],
+			['rule' => ['data_futuro' => 'required|date_format:d/m/Y'], 'filter' => 'dateDMY'],
+			['rule' => ['data_futuro' => 'required|date_format:j/n/Y'], 'filter' => 'dateDMY'],
+			['rule' => ['preco' => ['required', 'regex:/^(R\$)?( )?([1-9]{1}[\d]{0,2}(\.[\d]{3})*(\,[\d]{0,2})?|[1-9]{1}[\d]{0,}(\,[\d]{0,2})?|0(\,[\d]{0,2})?|(\,[\d]{1,2})?)$/']], 'filter' => 'currencyFormat'],
+			['rule' => ['preco_varejo' => ['required', 'regex:/^(R\$)?( )?([1-9]{1}[\d]{0,2}(\.[\d]{3})*(\,[\d]{0,2})?|[1-9]{1}[\d]{0,}(\,[\d]{0,2})?|0(\,[\d]{0,2})?|(\,[\d]{1,2})?)$/']], 'filter' => 'currencyFormat'],
+			['rule' => ['ipi' => ['required', 'regex:/^([1-9]{1}[\d]{0,2}(\.[\d]{3})*(\,[\d]{0,2})?|[1-9]{1}[\d]{0,}(\,[\d]{0,2})?|0(\,[\d]{0,2})?|(\,[\d]{1,2})?)$/']], 'filter' => 'currencyFormat'],
+		];
 	}
 
 	private function precos_promocionais($data){
