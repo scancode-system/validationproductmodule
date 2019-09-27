@@ -4,6 +4,7 @@ namespace Modules\ValidationProduct\Validator;
 
 use Modules\Portal\Imports\ValidatorImport;
 use Illuminate\Validation\Rule;
+use Modules\Portal\Rules\NotInCustomRule;
 
 class ProductsValidator extends ValidatorImport 
 {
@@ -15,8 +16,8 @@ class ProductsValidator extends ValidatorImport
 			'id_produto' => 				'blocked',
 			'descricao' => 					'filled|string|max:255',				
 			'descricao_detalhada' => 		'string',   																				
-			'codigo' => 					'filled|string|max:40|unique_custom_values',
-			'codigo_2' => 					'filled|string|max:40|unique_custom_values',
+			'codigo' => 					['filled', 'string', 'max:40',  new NotInCustomRule($this->chunkColumn('codigo', 0, $this->row_index-2), 'Duplicado')],
+			'codigo_2' => 					['filled', 'string', 'max:40',  new NotInCustomRule($this->chunkColumn('codigo_2', 0, $this->row_index-2), 'Duplicado')],
 			'preco' => 						'filled|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
 			'preco_varejo' => 				'numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/', 	 													
 			'filial' => 					'integer|min:1',																											
@@ -73,5 +74,7 @@ class ProductsValidator extends ValidatorImport
 		return $precos_promocional;
 	}
 
-
+public function messages(){
+		return  [];
+	}
 }
