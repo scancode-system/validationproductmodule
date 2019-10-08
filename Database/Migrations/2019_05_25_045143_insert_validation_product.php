@@ -18,7 +18,7 @@ class InsertValidationProduct extends Migration
             'alias' => 'produtos',
             'module_name' => 'ValidationProduct',
             'module_alias' => 'validationproduct',
-            'video' => 'https://www.youtube.com/watch?v=sd5Rd4LRGgs&t=34s',
+            'video' => 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0',
             'file' => 'produtos.xlsx',
             'validation' => 'products', 
         ]);

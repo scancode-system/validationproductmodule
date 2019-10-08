@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\ValidationProduct\Validator;
+namespace Modules\ValidationProduct\Validator; 
 
 use Modules\Portal\Imports\ValidatorImport;
 use Illuminate\Validation\Rule;
 use Modules\Portal\Rules\NotInCustomRule;
 
-class ProductsValidator extends ValidatorImport 
+class ProductsValidator extends ValidatorImport
 {
 
 	protected $required = ['descricao', 'codigo', 'codigo_2', 'preco', 'categoria', 'disponivel_atual', 'data_atual'];
