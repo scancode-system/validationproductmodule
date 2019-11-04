@@ -2,7 +2,7 @@
 
 namespace Modules\ValidationProduct\Validator; 
 
-use Modules\Portal\Imports\ValidatorImport;
+use Modules\Portal\Imports\ValidatorImport; 
 use Illuminate\Validation\Rule;
 use Modules\Portal\Rules\NotInCustomRule;
 
@@ -44,6 +44,8 @@ class ProductsValidator extends ValidatorImport
 
 	public function filterRules(){
 		return [
+			['rule' => ['multiplo' => 'integer|max:0'], 'filter' => 'setToOne'],
+			['rule' => ['qtd_min' => 'integer|max:0'], 'filter' => 'setToOne'],
 			['rule' => ['data_atual' => 'required|date_format:d/m/Y'], 'filter' => 'dateDMY'],
 			['rule' => ['data_atual' => 'required|date_format:j/n/Y'], 'filter' => 'dateDMY'],
 			['rule' => ['data_futuro' => 'required|date_format:d/m/Y'], 'filter' => 'dateDMY'],
