@@ -9,6 +9,32 @@ use Modules\Portal\Rules\NotInCustomRule;
 class ProductsValidator extends ValidatorImport
 {
 
+	protected $required = ['sku', 'barcode', 'description', 'price', 'min_qty', 'discount_limit', 'multiple', 'category'];
+
+	public function rule($data){
+		return  [
+			'sku' => 'filled|string|max:255',		
+			'barcode' => ['filled', 'string', 'max:255',  new NotInCustomRule($this->chunkColumn('barcode', 0, $this->row_index-2), 'Duplicado')], 																				
+			'description' => 'filled|string|max:255',
+			'price' => 'filled|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
+			'min_qty' => 'integer|min:1',
+			'discount_limit' => 'numeric|between:0,100|regex:/^\d+(\.\d{1,2})?$/', 	 													
+			'multiple' => 'integer|min:1',																											
+			'category' => 'filled|string|max:255'
+		];
+	}
+
+	public function filterRules(){
+		return [
+			['rule' => ['multiple' => 'integer|max:0'], 'filter' => 'setToOne'],
+			['rule' => ['min_qty' => 'integer|max:0'], 'filter' => 'setToOne'],
+			['rule' => ['price' => ['required', 'regex:/^(R\$)?( )?([1-9]{1}[\d]{0,2}(\.[\d]{3})*(\,[\d]{0,2})?|[1-9]{1}[\d]{0,}(\,[\d]{0,2})?|0(\,[\d]{0,2})?|(\,[\d]{1,2})?)$/']], 'filter' => 'currencyFormat'],
+			['rule' => ['discount_limit' => ['required', 'regex:/^(R\$)?( )?([1-9]{1}[\d]{0,2}(\.[\d]{3})*(\,[\d]{0,2})?|[1-9]{1}[\d]{0,}(\,[\d]{0,2})?|0(\,[\d]{0,2})?|(\,[\d]{1,2})?)$/']], 'filter' => 'currencyFormat'],
+		];
+	}
+
+
+/*
 	protected $required = ['descricao', 'codigo', 'codigo_2', 'preco', 'categoria', 'disponivel_atual', 'data_atual'];
 
 	public function rule($data){
@@ -17,7 +43,7 @@ class ProductsValidator extends ValidatorImport
 			'descricao' => 					'filled|string|max:255',				
 			'descricao_detalhada' => 		'string',   																				
 			'codigo' => 					['filled', 'string', 'max:40',  new NotInCustomRule($this->chunkColumn('codigo', 0, $this->row_index-2), 'Duplicado')],
-			'codigo_2' => 					['filled', 'string', 'max:40',  new NotInCustomRule($this->chunkColumn('codigo_2', 0, $this->row_index-2), 'Duplicado')],
+			'codigo_2' => 					['filled', 'string', 'max:40'/*,  new NotInCustomRule($this->chunkColumn('codigo_2', 0, $this->row_index-2), 'Duplicado')*//*],
 			'preco' => 						'filled|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
 			'preco_varejo' => 				'numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/', 	 													
 			'filial' => 					'integer|min:1',																											
@@ -78,5 +104,5 @@ class ProductsValidator extends ValidatorImport
 
 public function messages(){
 		return  [];
-	}
+	}*/
 }

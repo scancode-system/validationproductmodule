@@ -24,6 +24,6 @@
     },
     "type": "laravel-module",
     "require": {
-        "scancode/portal-module": "0.*"
+        "scancode/portal-module": "1.*"
     }
 }
