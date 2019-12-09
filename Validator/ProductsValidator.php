@@ -9,10 +9,9 @@ use Modules\Portal\Rules\NotInCustomRule;
 class ProductsValidator extends ValidatorImport
 {
 
-	protected $required = ['sku', 'barcode', 'description', 'price', 'min_qty', 'discount_limit', 'multiple', 'category'];
 
 	public function rule($data){
-		return  [
+		return  array_merge([
 			'sku' => 'filled|string|max:255',		
 			'barcode' => ['filled', 'string', 'max:255',  new NotInCustomRule($this->chunkColumn('barcode', 0, $this->row_index-2), 'Duplicado')], 																				
 			'description' => 'filled|string|max:255',
@@ -21,18 +20,23 @@ class ProductsValidator extends ValidatorImport
 			'discount_limit' => 'numeric|between:0,100|regex:/^\d+(\.\d{1,2})?$/', 	 													
 			'multiple' => 'integer|min:1',																											
 			'category' => 'filled|string|max:255'
-		];
+		],parent::rule($data));
 	}
 
-	public function filterRules(){
-		return [
-			['rule' => ['multiple' => 'integer|max:0'], 'filter' => 'setToOne'],
-			['rule' => ['min_qty' => 'integer|max:0'], 'filter' => 'setToOne'],
+	public function filterRules()
+	{
+		return array_merge(
+			[
+			['rule' => ['multiple' => 'filled|integer|max:0'], 'filter' => 'setToOne'],
+			['rule' => ['min_qty' => 'filled|integer|max:0'], 'filter' => 'setToOne'],
 			['rule' => ['price' => ['required', 'regex:/^(R\$)?( )?([1-9]{1}[\d]{0,2}(\.[\d]{3})*(\,[\d]{0,2})?|[1-9]{1}[\d]{0,}(\,[\d]{0,2})?|0(\,[\d]{0,2})?|(\,[\d]{1,2})?)$/']], 'filter' => 'currencyFormat'],
 			['rule' => ['discount_limit' => ['required', 'regex:/^(R\$)?( )?([1-9]{1}[\d]{0,2}(\.[\d]{3})*(\,[\d]{0,2})?|[1-9]{1}[\d]{0,}(\,[\d]{0,2})?|0(\,[\d]{0,2})?|(\,[\d]{1,2})?)$/']], 'filter' => 'currencyFormat'],
-		];
+		],parent::filterRules());
 	}
 
+	public function messages(){
+		return  [];
+	}
 
 /*
 	protected $required = ['descricao', 'codigo', 'codigo_2', 'preco', 'categoria', 'disponivel_atual', 'data_atual'];
