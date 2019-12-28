@@ -21,6 +21,7 @@ class InsertValidationProduct extends Migration
             'video' => 'https://www.youtube.com/embed/zpOULjyy-n8?rel=0',
             'file' => 'produtos.xlsx',
             'validation' => 'products', 
+            'import' => 'Product@import'
         ]);
     }
 
