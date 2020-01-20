@@ -30,13 +30,13 @@ return [
 		], 
 		[
 			'name' => 'min_qty',
-			'observation' => 'Quantidade minima para colocar na sacolas.',
+			'observation' => 'Quantidade minima para colocar na sacolas, o padrão é 1.',
 			'sample_1' => '2',
 			'filled' => false
 		], 
 		[
 			'name' => 'discount_limit',
-			'observation' => 'Disconto máximo que um produto pode receber em porcentagem.',
+			'observation' => 'Disconto máximo que um produto pode receber em porcentagem. O Padrão é 100%',
 			'sample_1' => '5',
 			'filled' => false
 		], 
