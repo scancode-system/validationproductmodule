@@ -10,17 +10,16 @@ use Modules\Portal\Rules\NullRule;
 class ProductsValidator extends ValidatorImport
 {
 
-
 	public function rule($data){
 		return  array_merge([
-			'sku' => 'filled|string|max:255',		
-			'barcode' => ['filled', 'string', 'max:255',  new NotInCustomRule($this->chunkColumn('barcode', 0, $this->row_index-2), 'Duplicado')], 																				
-			'description' => 'filled|string|max:255',
+			'sku' => 'filled|string|max:191',		
+			'barcode' => ['filled', 'string', 'max:191',  new NotInCustomRule($this->chunkColumn('barcode', 0, $this->row_index-2), 'Duplicado')], 																				
+			'description' => 'filled|string|max:191',
 			'price' => 'filled|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
 			'min_qty' => 'filled|integer|min:1',
-			'discount_limit' => 'filled|numeric|between:0,100|regex:/^\d+(\.\d{1,2})?$/', 	 													
-			'multiple' => 'filled|integer|min:1',																											
-			'category' => 'filled|string|max:255'
+			'discount_limit' => 'filled|numeric|between:0,100|regex:/^\d+(\.\d{1,2})?$/',
+			'multiple' => 'filled|integer|min:1',
+			'category' => 'filled|string|max:191'
 		],parent::rule($data));
 	}
 
