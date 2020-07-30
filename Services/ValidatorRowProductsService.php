@@ -1,23 +1,23 @@
 <?php
 
-namespace Modules\ValidationProduct\Validator; 
+namespace Modules\ValidationProduct\Services; 
 
-use Modules\Portal\Imports\ValidatorImport; 
+use Modules\Portal\Services\Validation\ValidatorRowService; 
+
 use Illuminate\Validation\Rule;
 use Modules\Portal\Rules\NotInCustomRule;
 use Modules\Portal\Rules\NullRule;
 
-class ProductsValidator extends ValidatorImport
+class ValidatorRowProductsService extends ValidatorRowService
 {
 
-	public $date_columns = [];
-	public $string_columns = [];
-
+	public $date_columns = [];				
+	public $string_columns = ['barcode']; 
 
 	public function rule($data){
 		return  array_merge([
 			'sku' => 'filled|string|max:191',		
-			'barcode' => ['filled', 'string', 'max:191',  new NotInCustomRule($this->chunkColumn('barcode', 0, $this->row_index-2), 'Duplicado')], 																				
+			'barcode' => ['filled', 'string', 'max:191',  new NotInCustomRule(ValidatorRowService::chunkColumn($this->columns, 'barcode', 0, $this->index-2), 'Duplicado')], 																				
 			'description' => 'filled|string|max:191',
 			'price' => 'filled|numeric|min:0|regex:/^\d+(\.\d{1,2})?$/',
 			'min_qty' => 'filled|integer|min:1',
@@ -37,10 +37,6 @@ class ProductsValidator extends ValidatorImport
 			['rule' => ['price' => ['required', 'string', 'regex:/^(R\$)?( )?([1-9]{1}[\d]{0,2}(\.[\d]{3})*(\,[\d]{0,2})?|[1-9]{1}[\d]{0,}(\,[\d]{0,2})?|0(\,[\d]{0,2})?|(\,[\d]{1,2})?)$/']], 'filter' => 'currencyFormat'],
 			['rule' => ['discount_limit' => ['required', 'string', 'regex:/^(R\$)?( )?([1-9]{1}[\d]{0,2}(\.[\d]{3})*(\,[\d]{0,2})?|[1-9]{1}[\d]{0,}(\,[\d]{0,2})?|0(\,[\d]{0,2})?|(\,[\d]{1,2})?)$/']], 'filter' => 'currencyFormat'],
 		],parent::filterRules());
-	}
-
-	public function messages(){
-		return  [];
 	}
 
 }
