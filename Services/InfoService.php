@@ -37,7 +37,7 @@ class InfoService extends InfoValidationService
 		];
 	}
 
-	public function columnsFormat()
+	public function columnsFormat($header)
 	{
 		return ['sku' => InfoValidationsService::STRING_FORMAT, 'barcode' => InfoValidationsService::STRING_FORMAT];
 	}
